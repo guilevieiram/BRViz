@@ -1,0 +1,16 @@
+
+# react entrypoint
+**/dist/*
+
+# go entrypoint 
+**/main 
+
+
+
+
+
+#js 
+**/node_modules
+
+#go 
+**/data/*

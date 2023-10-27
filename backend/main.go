@@ -38,6 +38,8 @@ func (csv CSV) getData (w http.ResponseWriter, r *http.Request){
 
     columnNames := query["column"]
 
+    fmt.Println("Get request for table ", csv.name, " and columns: ", columnNames)
+
     var columns [][]string
 
     for _, colName := range columnNames{
@@ -63,8 +65,16 @@ func (csv CSV) getData (w http.ResponseWriter, r *http.Request){
     }
 
     w.Header().Set("Content-Type", "application/json")
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     json.NewEncoder(w).Encode(mapping)
-
+    
+    fmt.Println(
+        "Get request completed, sending ", 
+        len(columns), 
+        " columns and ", 
+        len(columns[0]), 
+        " lines",
+    )
 }
 
 func findIndex (values []string, key string) (int, error) {
@@ -154,9 +164,9 @@ func main(){
 
     countries := readCsv("data/PAIS.csv", "countries")
     exports := readCsv("data/BRAZIL_EXP_COMPLETE_1.csv", "exports")
-
     initializeEndpoints([]CSV{countries, exports})
-    fmt.Println("Listening.")
+
+    fmt.Println("Listening on port ", port)
 
     err := http.ListenAndServe(port, nil)
 

@@ -16,17 +16,20 @@ const routes = [
   {
     path: "example", 
     name: "Example",
-    component: Example
+    Component: Example
   },
   {
     path: "example", 
     name: "Example number two",
-    component: Example
+    Component: Example
   },
 ]
 
-// HOC to wrap inner component in a full page.
-const withPage = (Wrapped, openModal) => props => (
+/*
+ * Page wrapper for any pages inside the main router.
+ *
+ */
+const Page = ({openModal, children}) => (
   <div className={`
     min-h-screen min-w-screen 
     flex flex-col items-center justify-start
@@ -47,7 +50,7 @@ const withPage = (Wrapped, openModal) => props => (
       >EXPLORE</button>
     }
     <div className="h-full w-full flex items-center justify-center">
-      <Wrapped {...props}/>
+      {children}
     </div>
   </div>
 )
@@ -58,23 +61,37 @@ const withPage = (Wrapped, openModal) => props => (
  * Contains routing logic and renders the main components
  * */
 export default function App() {
-  const HomePage = withPage(Home);
-  
-  const [modal, setModal] = useState(false);
-  const openModal = () => setModal(true);
+  const [modal, setModal] = useState(false); // modal state
 
   return (
       <BrowserRouter >
-        <Modal isOpen={modal} onClose={()=>setModal(false)} routes={routes}/>
+        
+        {!modal ? <></> :
+          (<Modal 
+            isOpen={modal} 
+            onClose={() => setModal(false)} 
+            routes={routes}
+          />)
+        }
+
         <Routes>
           <Route path="/">
-            <Route index element={<HomePage openModal={openModal}/>} />
+            <Route index element={
+              <Page > 
+                <Home openModal={() => setModal(true)}/> 
+              </Page>
+            }/>
+
             {
-              routes.map(({path, component}, index) => {
-                const Component = withPage(component, openModal);
-                return <Route path={path} element={<Component />} key={index}/>
-              })
+              routes.map(({path, Component}, index) => (
+                <Route path={path} key={index} element={
+                  <Page openModal={() => setModal(true)}>
+                    <Component/>
+                  </Page>
+                }/>
+              ))
             }
+
           </Route>
         </Routes>
       </BrowserRouter>

@@ -12,6 +12,7 @@ import HeatProductCountry from "./pages/HeatProductCountry";
 import HeatTransportCountry from "./pages/HeatTransportCountry";
 import BarCountryProduct from "./pages/BarCountryProduct";
 import SunburstPage from "./pages/SunburstPage";
+import Bump from "./pages/Bump";
 import Modal from "./Modal";
 
 /*
@@ -50,6 +51,9 @@ const routes = [
     path: "bar-country-product",
     name: "Bar plot by Country and Product", 
     Component: BarCountryProduct, 
+    path: "bump", 
+    name: "Example of a bump plot",
+    Component: Bump
   },
   {
     path: "sunburst",

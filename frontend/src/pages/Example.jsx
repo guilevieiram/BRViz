@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { ResponsiveGeoMap } from '@nivo/geo'
 import * as worldCountries from "../../world_countries.json"
+import YearSlider from './YearSlider'
+import "./Styles.css"
 
 import { getData } from "../api"
 
@@ -25,12 +27,22 @@ export default function Example(){
 
   }, [])
 
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const handleYearChange = (event) => {
+      setSelectedYear(event.target.value);
+  };
+
   return (
     <div className=" h-full w-full flex flex-col items-center justify-start">
       <div className="h-[500px] w-[800px] ">
         <ResponsiveGeoMap
             features={worldCountries.features}
             borderWidth={0.5}
+        />
+        <YearSlider 
+            selectedYear={selectedYear} 
+            handleYearChange={handleYearChange} 
         />
       </div>
     </div>

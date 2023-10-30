@@ -11,6 +11,8 @@ import WeightOverTimeByCountry from "./pages/WeightOverTimeByCountry";
 import HeatProductCountry from "./pages/HeatProductCountry";
 import HeatTransportCountry from "./pages/HeatTransportCountry";
 import BarCountryProduct from "./pages/BarCountryProduct";
+import SunburstPage from "./pages/SunburstPage";
+import Modal from "./Modal";
 
 /*
  * Insert all the routes/pages necessary for the main application 
@@ -48,6 +50,11 @@ const routes = [
     path: "bar-country-product",
     name: "Bar plot by Country and Product", 
     Component: BarCountryProduct, 
+  },
+  {
+    path: "sunburst",
+    name: "Example number three",
+    Component: SunburstPage
   },
 ]
 

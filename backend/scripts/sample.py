@@ -1,8 +1,8 @@
 import random
 
-SAMPLE = 0.1 
-FILE_IN = "backend/data/BRAZIL_EXP_COMPLETE.csv"
-FILE_OUT = "backend/data/BRAZIL_EXP_COMPLETE_1.csv"
+SAMPLE = 0.01 
+FILE_IN = "backend/data/BRAZIL_EXP_COMPLETE_1.csv"
+FILE_OUT = "backend/data/BRAZIL_EXP_COMPLETE_2.csv"
 #FILE_IN = "backend/data/PAIS.csv"
 #FILE_OUT = "backend/data/PAIS_01.csv"
 

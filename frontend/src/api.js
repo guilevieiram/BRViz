@@ -1,10 +1,35 @@
 const serverAddress = "http://localhost:4444";
 
 const getData = async ({
-    tableName, columns
+    tableName, 
+    columns, 
+    format,
+    aggregate,
+    filterColumn,
+    filterValue,
 }) => {
-    const parameters = columns.map(col => "column=" + col).join("&");
-    const endpoint = `${serverAddress}/${tableName}?${parameters}`;
+
+    // default params
+    if(!format) format = "json"
+    if(!columns) columns = []
+
+    const parameters = [
+        `format=${format}`,
+        columns
+            .map(col => "column=" + col)
+            .join("&"),
+    ] 
+
+    if(aggregate)
+      parameters.push(`aggregate=${aggregate}`)
+
+    if(filterValue && filterColumn){
+      parameters.push(`filterValue=${filterValue}`)
+      parameters.push(`filterColumn=${filterColumn}`)
+    }
+
+    const param = parameters.join('&');
+    const endpoint = `${serverAddress}/${tableName}?${param}`;
     const response = await fetch(endpoint);
     const json = await response.json();
     return json;

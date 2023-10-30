@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Example from "./pages/Example";
+import Bump from "./pages/Bump";
 import Modal from "./Modal";
 
 /*
@@ -19,9 +20,9 @@ const routes = [
     Component: Example
   },
   {
-    path: "example", 
-    name: "Example number two",
-    Component: Example
+    path: "bump", 
+    name: "Example of a bump plot",
+    Component: Bump
   },
 ]
 
@@ -32,10 +33,11 @@ const routes = [
 const Page = ({openModal, children}) => (
   <div className={`
     min-h-screen min-w-screen 
+    h-fit
     flex flex-col items-center justify-start
     h-screen
-    bg-gray-200 dark:bg-gray-800
-    text-gray-800 dark:text-gray-200
+    bg-gray-200 dark:bg-gray-200
+    text-gray-800 dark:text-gray-800
   `}>
     {
       !openModal ? <></> :
@@ -54,6 +56,7 @@ const Page = ({openModal, children}) => (
     </div>
   </div>
 )
+
 
 /**
  * Application entrypoint.

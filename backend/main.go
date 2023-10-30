@@ -1,170 +1,107 @@
 package main
 
 import (
-    "encoding/csv"
     "encoding/json"
     "fmt"
-    "os"
-    "io"
     "net/http"
-    "errors"
 )
 
-// column indexed
-type CSV struct {
-    name string
-    columns []string
-    values *[][]string // col, row
-    numberRows int
-    numberColumns int
-} 
+func createEndpoint(df DataFrame) func (http.ResponseWriter, *http.Request) {
+    return func (w http.ResponseWriter, r *http.Request){
 
-func (csv CSV) getColumn(columnName string) ([]string, error){
-    columnIndex, err := findIndex(csv.columns, columnName)
-    if err != nil {
-        fmt.Println(columnName, csv.columns, columnIndex)
-        return nil, errors.New("Column not present.")
-    }
-    return (*csv.values)[columnIndex], nil
-}
-
-
-func (csv CSV) getData (w http.ResponseWriter, r *http.Request){
-    if r.Method != http.MethodGet {
-        http.Error(w, "Only GET method is supported", http.StatusMethodNotAllowed)
-        return
-    }
-    query := r.URL.Query()
-
-    columnNames := query["column"]
-
-    fmt.Println("Get request for table ", csv.name, " and columns: ", columnNames)
-
-    var columns [][]string
-
-    for _, colName := range columnNames{
-        columnValue, err := csv.getColumn(colName)
-        if err != nil{
-            fmt.Println("Error in getting column ", err)
+        if r.Method != http.MethodGet {
+            http.Error(w, "Only GET method is supported", http.StatusMethodNotAllowed)
             return
         }
-        columns = append(columns, columnValue)
-    }
 
-    // converting the format
-    mapping := make([]map[string]string, csv.numberRows)
+        w.Header().Set("Content-Type", "application/json")
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        query := r.URL.Query()
 
-    for rowIdx := range mapping {
-        rowElem := make(map[string]string)
+        // getting arguments
+        columnNames := query["column"]
+        format := query.Get("format")
+        aggregateColumn := query.Get("aggregate")
+        filterColumn := query.Get("filterColumn")
+        filterValue := query.Get("filterValue")
 
-        for j := range columns {
-            rowElem[columnNames[j]] = columns[j][rowIdx]
+        fmt.Println(
+            "Get request for table ", 
+            df.name, 
+            " and columns: ", 
+            columnNames,
+            " aggregating over",
+            aggregateColumn,
+            " filtering over column",
+            filterColumn,
+            " and value",
+            filterValue,
+        )
+
+        // filtering columns
+        var err error
+        filterDf := df
+
+        if filterValue != "" && filterColumn != "" {
+            filterDf, err = filterDf.filter(filterColumn, filterValue)
+            if err != nil {
+                http.Error(w, "Problem in filtering", http.StatusBadRequest)
+                return
+            }
         }
 
-        mapping[rowIdx] = rowElem
-    }
-
-    w.Header().Set("Content-Type", "application/json")
-    w.Header().Set("Access-Control-Allow-Origin", "*")
-    json.NewEncoder(w).Encode(mapping)
-    
-    fmt.Println(
-        "Get request completed, sending ", 
-        len(columns), 
-        " columns and ", 
-        len(columns[0]), 
-        " lines",
-    )
-}
-
-func findIndex (values []string, key string) (int, error) {
-    for i, v := range values {
-        if key == v {
-            return i, nil
+        if len(columnNames) > 0 {
+            filterDf, err = filterDf.filterColumns(columnNames)
+            if err != nil {
+                http.Error(w, "Problem in filtering Columns", http.StatusBadRequest)
+                return
+            }
         }
-    }
-    return -1, errors.New("Key not present in values.")
-}
-
-func getInfo(filePath string) (numberLines int, columns []string){
-
-    fileDescriptor, error := os.Open(filePath)
-    if error != nil {
-        fmt.Println("Error while opening file :", error)
-    }
-    defer fileDescriptor.Close()
-
-    csvReader := csv.NewReader(fileDescriptor)
-    csvReader.Comma = ';'
-    csvReader.ReuseRecord = true
-
-    row, error := csvReader.Read()
-    columns = make([]string, len(row))
-    copy(columns, row)
-
-    for numberLines = 0 ;; numberLines++ {
-        _, error = csvReader.Read()
-        if error == io.EOF {
-            break
+        if aggregateColumn != "" {
+            filterDf, err = filterDf.aggregate(aggregateColumn)
+            if err != nil {
+                http.Error(w, "Problem in aggregation", http.StatusBadRequest)
+                return
+            }
         }
-    }
 
-    return
-}
-
-func readCsv(filePath string, name string) (CSV) {
-    numberLines, columns := getInfo(filePath)
-
-    values := make([][]string, len(columns))
-    for i := range values {
-        values[i] = make([]string, numberLines)
-    }
-    
-    // actually reading file contents
-    fileDescriptor, error := os.Open(filePath)
-    if error != nil {
-        fmt.Println("Error while opening file :", error)
-    }
-    defer fileDescriptor.Close()
-
-    csvReader := csv.NewReader(fileDescriptor)
-    csvReader.Comma = ';'
-    csvReader.ReuseRecord = true
-    csvReader.Read() // first row of column names
-
-    var row []string
-    for i := 0; ; i++{
-        row, error = csvReader.Read()
-        if error == io.EOF {
-            break
+        // returning format
+        if format == "csv"{
+            json.NewEncoder(w).Encode(filterDf.toCsv())
+        } else if format == "json" {
+            json.NewEncoder(w).Encode(filterDf.toMap())
+        } else{
+            http.Error(w, "No format provided", http.StatusBadRequest)
+            return
         }
-        for colCount := range columns {
-            values[colCount][i] = row[colCount]
-        }
-    }
 
-    return CSV {
-        name, 
-        columns,
-        &values,
-        numberLines, 
-        len(columns),
+        fmt.Println(
+            "Get request completed, sending ", 
+            filterDf.numberColumns, 
+            " columns and ", 
+            filterDf.numberRows,
+            " lines",
+        )
     }
 }
 
-func initializeEndpoints (csvs []CSV) {
-    for _, csv := range csvs {
-        http.HandleFunc("/" + csv.name, csv.getData)
+
+func initializeEndpoints (dataFrames []DataFrame) {
+    for _, dataFrame := range dataFrames{
+        http.HandleFunc("/" + dataFrame.name, createEndpoint(dataFrame))
     }
 }
 
 func main(){
     port := ":4444"
+
     fmt.Println("Starting a server.")
 
-    countries := readCsv("data/PAIS.csv", "countries")
-    exports := readCsv("data/BRAZIL_EXP_COMPLETE_1.csv", "exports")
-    initializeEndpoints([]CSV{countries, exports})
+    countries := readCsv("data/PAIS_01.csv", "countries", ';')
+    exports := readCsv("data/EXP_COMPLETE_01_NCM.csv", "exports", ';')
+    ncm := readCsv("data/NCM.csv", "ncm", ';')
+
+    initializeEndpoints([]DataFrame{countries, exports, ncm})
 
     fmt.Println("Listening on port ", port)
 

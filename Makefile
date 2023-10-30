@@ -1,5 +1,5 @@
 backend_dev:
-	cd backend && go build main.go && ./main
+	cd backend && go build && ./backend
 
 setup:
 	cd frontend && npm i

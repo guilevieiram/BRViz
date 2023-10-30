@@ -6,7 +6,7 @@ import { getData } from "../api"
 
 export default function Example(){
 
-  const [countries, setCountries] = useState([]);
+  const [exports, setExports] = useState([]);
   
   let startedFetching = false;
   useEffect(() => {
@@ -15,10 +15,11 @@ export default function Example(){
     startedFetching = true;
 
     getData({
-      tableName: "countries",
-      columns: ["CO_PAIS", "CO_PAIS_ISON3"]
+      tableName: "exports",
+      columns: ["CO_ANO", "CO_MES", "CO_NCM", "KG_LIQUIDO"],
+      format: "json"
     }).then(data => {
-      setCountries(data)
+      setExports(data)
       console.log(data)
     });
 

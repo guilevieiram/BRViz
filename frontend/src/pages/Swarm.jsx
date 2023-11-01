@@ -11,9 +11,35 @@ export default function Swarm() {
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10000);
 
+  const tooltip = (node) => {
+    // small square with ronded corners and the color of the node
+    // with the name of the category and the net quantity
+    console.log(node);
+    return (
+        <div
+            style={{
+                background: node.color,
+                color: 'dark',
+                borderRadius: '6px',
+                padding: '0px 5px',
+                // content center
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <small>{node.id}</small>
+            <br />
+            <small>{node.data.value} Kg</small>
+        </div>
+    );
+    }
+
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };
+
   useEffect(() => {
     getData({
       tableName: 'exports',
@@ -41,19 +67,18 @@ export default function Swarm() {
         data={dataSwarm}
         groups={groups}
         identity="id"
-        value="value"
+        value="id"
         width={800}
         height={500}
-        valueScale={{ type: 'linear', min: minValue, max: maxValue, reverse: false }}
         size={{
-            key: 'volume',
+            key: 'value',
             values: [
                 minValue,
                 maxValue
             ],
             sizes: [
-                4,
-                35
+                6,
+                50
             ]
         }}
         spacing={3}
@@ -84,26 +109,27 @@ export default function Swarm() {
             tickRotation: 0,
             legend: '',
             legendPosition: 'middle',
-            legendOffset: 76
+            legendOffset: 76,
         }}
         axisBottom={{
             orient: 'bottom',
             tickSize: 10,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'group if vertical, price if horizontal',
+            legend: 'Transportation means',
             legendPosition: 'middle',
-            legendOffset: 46
+            legendOffset: 46,
         }}
         axisLeft={{
             orient: 'left',
             tickSize: 10,
             tickPadding: 5,
             tickRotation: 0,
-            legend: '',
+            legend: 'Category',
             legendPosition: 'middle',
             legendOffset: -76
         }}
+        tooltip={tooltip}
     />
       </div>
       <YearSlider selectedYear={selectedYear} handleYearChange={handleYearChange} />
@@ -130,7 +156,6 @@ const preprocessData = (data) => {
         id: item.CO_NCM_1,
         group: item.CO_VIA,
         value: item.KG_LIQUIDO,
-        volume: item.KG_LIQUIDO,
     }));
     return {result:result, groups:groups, minValue:minValue, maxValue:maxValue};
 };

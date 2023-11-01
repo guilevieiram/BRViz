@@ -5,14 +5,15 @@ const YearSlider = ({ selectedYear, handleYearChange }) => {
                 <input
                     className="slider"
                     type="range" 
-                    min="1996"
+                    min="1997"
                     max="2023" // Set the max year as needed
                     step="1"
                     value={selectedYear}
                     onChange={handleYearChange}
                 />
                 <div className="sliderticks">
-                    <span>1996</span>
+                    <span>1997</span>
+                    <span>2010</span>
                     <span>2023</span>
                 </div>
                 <p style={{textAlign: 'center'}}>Selected year: {selectedYear}</p>

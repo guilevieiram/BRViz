@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Modal from "./Modal";
 import Home from "./pages/Home";
 import Example from "./pages/Example";
+<<<<<<< HEAD
 import CategoryOverTime from "./pages/CategoryOverTime";
 import CountriesVsTime from "./pages/CountriesVsTime";
 import WeightOverTimeByCountry from "./pages/WeightOverTimeByCountry";
@@ -12,7 +13,11 @@ import HeatProductCountry from "./pages/HeatProductCountry";
 import HeatTransportCountry from "./pages/HeatTransportCountry";
 import BarCountryProduct from "./pages/BarCountryProduct";
 import SunburstPage from "./pages/SunburstPage";
+=======
+import Sunburst from "./pages/Sunburst";
+>>>>>>> c3537e2 (swarmplot started)
 import Bump from "./pages/Bump";
+import Swarm from "./pages/Swarm";
 import Modal from "./Modal";
 
 /*
@@ -57,8 +62,13 @@ const routes = [
   },
   {
     path: "sunburst",
-    name: "Example number three",
-    Component: SunburstPage
+    name: "Example of a sunburst plot",
+    Component: Sunburst
+  },
+  {
+    path : "swarm",
+    name: "Example of a swarm plot",
+    Component: Swarm
   },
 ]
 

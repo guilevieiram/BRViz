@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import {  ResponsiveAreaBump } from '@nivo/bump'
 
 import { getData } from "../api"
+import ncm from "../ncm.json"
 
 const sum = arr => arr.reduce((acc, cur) => acc + cur, 0)
 
 const fetchData = ({
-  labels, 
   filterNCM,
   setData,
 }) => {
@@ -23,6 +23,8 @@ const fetchData = ({
     filterColumn: level > 0 ? `CO_NCM_${level-1}` : "",
     filterValue: level > 0 ? filterNCM : ""
   }).then(data => {
+
+    const years = Array.from({ length: 2023 - 1997 + 1 }, (_, i) => i + 1997)
 
     const byKey = data
       .reduce(
@@ -50,28 +52,28 @@ const fetchData = ({
       )
       .reverse()
       .slice(0, 10)
-      .map(
-        ({id, data}) => ({
-          //id: labels[id] || id,
-          id: id,
-          data: data.sort(
-            (a, b) => parseInt(a.x) - parseInt(b.x)
-          )
-        }) 
-      )
-    const defaultLine = Array.from({ length: 2023 - 1997 + 1 }, (_, i) => i + 1997)
-      .map(year => ({x: year, y: 0}))
-    const withDefault = [{id: 0, data: defaultLine}, ...onArray]
+      .map(({id, data}) => ({
+        id: id,
+        data: years.map(year => 
+          data.find(d => d.x === `${year}`) || {x: `${year}`, y: 0}
+        )
+      }))
+      .map(({id, data}) => ({
+        id: ncm[id] || id,
+        idx: id,
+        data: data.sort((a, b) => 
+          parseInt(a.x) - parseInt(b.x)
+        )
+      }))
 
-    console.log(withDefault)
-    setData(withDefault)
+    console.log(onArray)
+    setData(onArray)
   });
 }
 
 export default function Bump(){
 
   const [data, setData] = useState([]);
-  const [labels, setLabels] = useState({});
   const [lastSearch, setLastSearch] = useState([]);
 
   let startedFetching = false;
@@ -80,26 +82,9 @@ export default function Bump(){
     startedFetching = true;
 
     console.log("stated fetching data!!!")
-    const params = {labels, setData, filterNCM: ""};
+    const params = {setData, filterNCM: ""};
     fetchData(params);
     setLastSearch([params]);
-
-    /*
-    getData({
-      tableName: "ncm",
-      columns: ["code", "description"],
-    }).then(data => {
-      const labels = data.reduce(
-        (acc, {code, description}) => ({...acc, 
-          [code.replaceAll(".", "")]: description})
-        , {}
-      );
-
-      console.log({labels})
-      setLabels(labels);
-      fetchData({labels, setData, filterNCM: ""});
-    })
-    */
 
   }, [])
 
@@ -114,17 +99,18 @@ export default function Bump(){
               fetchData(lastSearch.slice(-2)[0])
               setLastSearch(lastSearch.slice(0, -1))
             }}
-            className="bg-red-400"
-          >Go back</button>
+            className="bg-indigo-400 py-2 px-6 rounded-lg text-xl"
+          >⬅</button>
         }
       </div>
       <div className="h-[600px] w-[1200px] mb-20">
         <ResponsiveAreaBump
           data={data} 
           onClick={({data}) => {
-            if(data.id === 0) return
-            setLastSearch([...lastSearch, {labels, setData, filterNCM: data.id}])
-            fetchData({labels, setData, filterNCM: data.id})
+            if(data.idx === 0) return
+            const params = {setData, filterNCM: data.idx}
+            setLastSearch([...lastSearch, params])
+            fetchData(params)
           }}
           margin={{ top: 40, right: 300, bottom: 40, left: 100 }}
           spacing={20} 

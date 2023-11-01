@@ -1,6 +1,6 @@
-import {useState, useRef, useEffect} from "react"
+import { useState, useRef, useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
-import {AiOutlineHome, AiOutlineClose} from "react-icons/ai"
+import { AiOutlineHome, AiOutlineClose } from "react-icons/ai"
 
 const IconButton = ({children, onClick}) => (
   <div onClick={onClick} className="p-4 cursor-pointer hover:scale-105 transition-transform">

@@ -97,7 +97,7 @@ func main(){
 
     fmt.Println("Starting a server.")
 
-    countries := readCsv("data/PAIS_01.csv", "countries", ';')
+    countries := readCsv("data/PAIS.csv", "countries", ';')
     exports := readCsv("data/EXP_COMPLETE_01_NCM.csv", "exports", ';')
     ncm := readCsv("data/NCM.csv", "ncm", ';')
 

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Example from "./pages/Example";
 import Bump from "./pages/Bump";
+import CountriesVsTime from "./pages/CountriesVsTime";
 import Modal from "./Modal";
 
 /*
@@ -23,6 +24,11 @@ const routes = [
     path: "bump", 
     name: "Example of a bump plot",
     Component: Bump
+  },
+  {
+    path: "cvt", 
+    name: "Countries vs time",
+    Component: CountriesVsTime
   },
 ]
 

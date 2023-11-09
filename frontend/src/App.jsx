@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Example from "./pages/Example";
 import Bump from "./pages/Bump";
 import CountriesVsTime from "./pages/CountriesVsTime";
+import WeightOverTimeByCountry from "./pages/WeightOverTimeByCountry";
 import Modal from "./Modal";
 
 /*
@@ -30,6 +31,11 @@ const routes = [
     name: "Countries vs time",
     Component: CountriesVsTime
   },
+  {
+    path: "wot",
+    name: "Weight over Time by Country", 
+    Component: WeightOverTimeByCountry , 
+  }
 ]
 
 /*

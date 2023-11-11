@@ -3,7 +3,7 @@ import { ResponsiveStream } from '@nivo/stream'
 import { ResponsiveGeoMap } from '@nivo/geo'
 import { getData } from "../api"
 
-import ncm from "../ncm.json"
+import ncm from "../ncm_ing.json"
 import * as worldCountries from "../../world_countries.json"
 
 const sum = arr => arr.reduce((acc, cur) => acc + cur, 0)
@@ -15,18 +15,17 @@ const fetchData = ({
   country,
   onError,
 }) => {
-  console.log({country})
   getData({
     tableName: "exports",
     columns: ["CO_ANO", "CO_NCM_0", "KG_LIQUIDO"],
     format: "json",
     aggregate: "KG_LIQUIDO",
     filterColumn: "CO_PAIS",
-    filterValue: country // usa
+    filterValue: `${parseFloat(country)}`
   }).then(data => {
 
     if(!data.length) {
-      console.error("No information available.")
+      alert(`No information available for this country.`, )
       onError();
       return 
     }
@@ -69,7 +68,7 @@ export default function WeightOverTimeByCountry(){
   const [countriesNames, setCountriesNames] = useState(null);
   const onError = () => setCountry(null);
 
-  const boxWidth = 1200 / (years.length - 1); 
+  const boxWidth = 1000 / (years.length - 1); 
   let startedFetching = false;
   useEffect(() => {
     if (startedFetching) return
@@ -108,7 +107,7 @@ export default function WeightOverTimeByCountry(){
 
       ?<>
         <h1>Choose your country:</h1>
-        <div className="h-[600px] w-[1200px] ">
+        <div className="h-[500px] w-[1000px] mt-6">
           <ResponsiveGeoMap
             features={worldCountries.features}
             borderWidth={0.5}
@@ -117,7 +116,6 @@ export default function WeightOverTimeByCountry(){
             projectionType="equalEarth"
             projectionScale={200}
             onClick={data => {
-              console.log(data.id)
               setCountry(countries[data.id])
               setCountryName(countriesNames[data.id])
             }}
@@ -127,22 +125,22 @@ export default function WeightOverTimeByCountry(){
       
       :<>
         
-        <div className="my-12 text-center">
+        <div className="text-center">
           <h1>{countryName}</h1>
           <button 
             onClick={() => {
               setCountry(null)
               setCountryName(null)
             }}
-            className="bg-indigo-400 py-2 px-6 rounded-lg text-xl my-6"
+            className="bg-indigo-400 py-2 px-6 rounded-lg text-xl my-2"
           >⬅</button>
         </div>
-        <div className="h-[600px] w-[1200px] mb-4">
+        <div className="h-[400px] w-[1000px] mb-4">
           <ResponsiveStream
             data={data} 
             keys={keys}
-            width={1200}
-            height={600}
+            width={1000}
+            height={400}
             enableGridX={true}
             enableGridY={true}
             offsetType="silhouette"
@@ -162,7 +160,7 @@ export default function WeightOverTimeByCountry(){
             />
         </div>
         <div style={{
-          width: `${1200 + boxWidth}px`,
+          width: `${1000 + boxWidth}px`,
           marginLeft: `${boxWidth}px`
         }} className="flex flex-row justify-around">
           {years.map(
@@ -176,4 +174,5 @@ export default function WeightOverTimeByCountry(){
     }
     </div>
   )
+
 }

@@ -2,12 +2,15 @@ import {useState, useRef, useEffect} from "react"
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Modal from "./Modal";
 import Home from "./pages/Home";
 import Example from "./pages/Example";
-import Bump from "./pages/Bump";
+import CategoryOverTime from "./pages/CategoryOverTime";
 import CountriesVsTime from "./pages/CountriesVsTime";
 import WeightOverTimeByCountry from "./pages/WeightOverTimeByCountry";
-import Modal from "./Modal";
+import HeatProductCountry from "./pages/HeatProductCountry";
+import HeatTransportCountry from "./pages/HeatTransportCountry";
+import BarCountryProduct from "./pages/BarCountryProduct";
 
 /*
  * Insert all the routes/pages necessary for the main application 
@@ -17,25 +20,35 @@ import Modal from "./Modal";
 */
 const routes = [
   {
-    path: "example", 
-    name: "Example",
-    Component: Example
+    path: "category-over-time", 
+    name: "Categories Over time",
+    Component: CategoryOverTime
   },
   {
-    path: "bump", 
-    name: "Example of a bump plot",
-    Component: Bump
-  },
-  {
-    path: "cvt", 
-    name: "Countries vs time",
+    path: "countries-over-time", 
+    name: "Countries Over time",
     Component: CountriesVsTime
   },
   {
-    path: "wot",
+    path: "weight-over-time",
     name: "Weight over Time by Country", 
     Component: WeightOverTimeByCountry , 
-  }
+  },
+  {
+    path: "heat-product-country",
+    name: "Product by Country Heatmap", 
+    Component: HeatProductCountry, 
+  },
+  {
+    path: "heat-transport-country",
+    name: "Transportation by Country Heatmap", 
+    Component: HeatTransportCountry, 
+  },
+  {
+    path: "bar-country-product",
+    name: "Bar plot by Country and Product", 
+    Component: BarCountryProduct, 
+  },
 ]
 
 /*

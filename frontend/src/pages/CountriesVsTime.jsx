@@ -84,10 +84,10 @@ export default function CountriesVsTime(){
 
   return (
     <div className=" h-full w-full flex flex-col items-center justify-start">
-      <div className="h-[600px] w-[1200px] mb-20">
+      <div className="h-[500px] w-[1000px] mb-20">
         <ResponsiveAreaBump
           data={data} 
-          margin={{ top: 40, right: 300, bottom: 40, left: 100 }}
+          margin={{ top: 40, right: 100, bottom: 40, left: 30}}
           spacing={20} 
           colors={{ scheme: 'nivo' }}
           axisTop={null}

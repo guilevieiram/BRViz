@@ -164,7 +164,7 @@ export default function WeightOverTimeByCountry(){
           marginLeft: `${boxWidth}px`
         }} className="flex flex-row justify-around">
           {years.map(
-            year => <p style={{
+            (year, idx) => <p key={idx} style={{
               width: `${boxWidth}px`,
               transform: `translate(${-boxWidth/2}px, 0px)`
             }} className="text-center text-lg">{year}</p>

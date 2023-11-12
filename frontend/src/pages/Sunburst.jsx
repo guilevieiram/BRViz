@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import YearSlider from './YearSlider'
 import { ResponsiveSunburst } from '@nivo/sunburst'
 import "./Styles.css"
-import ncm from '../ncm.json'
+import ncm from '../ncm_ing.json'
 import { getData } from "../api"
 
 export default function sunBurst() {

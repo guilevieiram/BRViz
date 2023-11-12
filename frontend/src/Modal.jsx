@@ -57,7 +57,8 @@ export default function Modal ({isOpen, onClose, routes}) {
         </div>
         
         {/* Galery */}
-        <div className="w-full text-center p-12">
+        <div className="w-full text-center p-12 overflow-x-scroll">
+          
           {
             routes.map(({path, name, description}, idx) => (
               <div className="m-auto" key={idx}>

@@ -1,6 +1,6 @@
 const YearSlider = ({ selectedYear, handleYearChange }) => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', height: '200vh',}}>
+        <div style={{ display: 'flex', justifyContent: 'center', height: '200px',}}>
             <div style={{ marginTop: '50px' }}>
                 <input
                     className="slider"

@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react'
 import YearSlider from './YearSlider'
 import { ResponsiveSwarmPlot } from '@nivo/swarmplot'
 import "./Styles.css"
-import ncm from '../ncm.json'
+import ncm from '../ncm_ing.json'
+import transport from '../transport.json'
 import { getData } from "../api"
-//import transport from '../transport.json'
-
 
 
 export default function Swarm() {
@@ -69,14 +68,14 @@ export default function Swarm() {
   }, [selectedYear]) // Re-run this effect when selectedYear changes
   return (
     <div className="h-full w-full flex flex-col items-center justify-start">
-      <div className="h-[500px] w-[800px]">
+      <div className="h-[400px] w-[1000px]">
       <ResponsiveSwarmPlot
         data={dataSwarm}
         groups={groups}
         identity="id"
         value="CO_NCM_0"
-        width={800}
-        height={500}
+        width={1000}
+        height={400}
         size={{
             key: 'KG_LIQUIDO',
             values: [
@@ -107,7 +106,7 @@ export default function Swarm() {
                 ]
             ]
         }}
-        margin={{ top: 80, right: 100, bottom: 80, left: 100 }}
+        margin={{ top: 30, right: 100, bottom: 80, left: 100 }}
         // grid Y values are the categories
         // grid X values are the transportation means
         axisTop={null}
@@ -156,18 +155,18 @@ const preprocessData = (data) => {
     const maxValue = Math.max(...filteredData.map((item) => item.KG_LIQUIDO));
     const minValue = Math.min(...filteredData.map((item) => item.KG_LIQUIDO));
     // list of dictionaries with the format {id: "name", value: "value", group: "group", volume: "value"}
-    const groups = [...new Set(filteredData.map((item) => item.CO_VIA))];	
+    const groups = [...new Set(filteredData.map((item) => transport[item.CO_VIA]))]
+        .sort();	
     const result = filteredData.map((item, d) => ({
         id: d,
-        group: item.CO_VIA,
         ...item,
+        group: transport[item.CO_VIA],
     }));
-    return {result:result, groups:groups, minValue:minValue, maxValue:maxValue};
+    return {result, groups, minValue, maxValue};
 };
 
 const formatValue = (number) => {
   if(!number) return "0";
-  console.log(number)
   number = parseFloat(number);
 
   const suffixes = ['', 'K', 'M', 'B', 'T'];

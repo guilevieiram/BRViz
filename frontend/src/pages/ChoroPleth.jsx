@@ -4,11 +4,11 @@ import { ResponsiveChoropleth } from '@nivo/geo'
 import * as d3 from 'd3'
 import "./Styles.css"
 import * as worldCountries from '../../world_countries.json'
-import ncm from '../ncm.json'
+import ncm from '../ncm_ing.json'
 import { getData } from "../api"
 
 
-export default function cloroPconsth() {
+export default function ChoroPleth() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [dataChoro, setDataChoro] = useState([]);
   // load the json file to dictionary dont use require
@@ -82,7 +82,7 @@ export default function cloroPconsth() {
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-start">
-      <div className="h-[500px] w-[800px]">
+      <div className="h-[400px] w-[800px]">
       <ResponsiveChoropleth
           data={dataChoro}
           features={worldCountries.features}
@@ -91,7 +91,7 @@ export default function cloroPconsth() {
           domain={[1, 12]}
           unknownColor="#666666"
           width={800}
-          height={500}
+          height={400}
           label="properties.name"
           valueFormat=".2s"
           projectionType="naturalEarth1"

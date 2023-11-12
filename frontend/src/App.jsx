@@ -4,22 +4,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Modal from "./Modal";
 import Home from "./pages/Home";
-import Example from "./pages/Example";
-<<<<<<< HEAD
 import CategoryOverTime from "./pages/CategoryOverTime";
 import CountriesVsTime from "./pages/CountriesVsTime";
 import WeightOverTimeByCountry from "./pages/WeightOverTimeByCountry";
 import HeatProductCountry from "./pages/HeatProductCountry";
 import HeatTransportCountry from "./pages/HeatTransportCountry";
 import BarCountryProduct from "./pages/BarCountryProduct";
-import SunburstPage from "./pages/SunburstPage";
-=======
 import Sunburst from "./pages/Sunburst";
->>>>>>> c3537e2 (swarmplot started)
 import Bump from "./pages/Bump";
 import Swarm from "./pages/Swarm";
-import cloroPleth from "./pages/ChoroPleth";
-import Modal from "./Modal";
+import ChoroPleth from "./pages/ChoroPleth";
 
 /*
  * Insert all the routes/pages necessary for the main application 
@@ -30,51 +24,48 @@ import Modal from "./Modal";
 const routes = [
   {
     path: "category-over-time", 
-    name: "Categories Over time",
+    name: "Category Stratification Over time",
     Component: CategoryOverTime
   },
   {
     path: "countries-over-time", 
-    name: "Countries Over time",
+    name: "Countries Commerce Over time",
     Component: CountriesVsTime
   },
   {
     path: "weight-over-time",
-    name: "Weight over Time by Country", 
+    name: "Weight Over Time Stratified by Country", 
     Component: WeightOverTimeByCountry , 
   },
   {
     path: "heat-product-country",
-    name: "Product by Country Heatmap", 
+    name: "Heatmap of Product by Country", 
     Component: HeatProductCountry, 
   },
   {
     path: "heat-transport-country",
-    name: "Transportation by Country Heatmap", 
+    name: "Heatmap of Transportation by Country", 
     Component: HeatTransportCountry, 
   },
   {
     path: "bar-country-product",
     name: "Bar plot by Country and Product", 
     Component: BarCountryProduct, 
-    path: "bump", 
-    name: "Example of a bump plot",
-    Component: Bump
   },
   {
     path: "sunburst",
-    name: "Repartition of the exports by year and category",
+    name: "Repartition of the Exports by Year and category",
     Component: Sunburst
   },
   {
     path : "swarm",
-    name: "Example of a swarm plot",
+    name: "Transports per Category by Year",
     Component: Swarm
   },
   {
     path : "choropleth",
-    name: "Example of a choropleth plot",
-    Component: cloroPleth
+    name: "Exports on the Globe by year",
+    Component: ChoroPleth
   }
 ]
 
@@ -85,11 +76,11 @@ const routes = [
 const Page = ({openModal, children}) => (
   <div className={`
     min-h-screen min-w-screen 
-    h-fit
     flex flex-col items-center justify-start
-    h-screen
     bg-gray-200 dark:bg-gray-200
     text-gray-800 dark:text-gray-800
+    overflow-x-none
+    overflow-y-none
   `}>
     {
       !openModal ? <></> :

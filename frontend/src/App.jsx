@@ -18,6 +18,7 @@ import Sunburst from "./pages/Sunburst";
 >>>>>>> c3537e2 (swarmplot started)
 import Bump from "./pages/Bump";
 import Swarm from "./pages/Swarm";
+import cloroPleth from "./pages/ChoroPleth";
 import Modal from "./Modal";
 
 /*
@@ -62,7 +63,7 @@ const routes = [
   },
   {
     path: "sunburst",
-    name: "Example of a sunburst plot",
+    name: "Repartition of the exports by year and category",
     Component: Sunburst
   },
   {
@@ -70,6 +71,11 @@ const routes = [
     name: "Example of a swarm plot",
     Component: Swarm
   },
+  {
+    path : "choropleth",
+    name: "Example of a choropleth plot",
+    Component: cloroPleth
+  }
 ]
 
 /*

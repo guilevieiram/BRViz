@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import YearSlider from './YearSlider'
 import { ResponsiveSunburst } from '@nivo/sunburst'
 import "./Styles.css"
+import ncm from '../ncm.json'
 import { getData } from "../api"
 
 export default function sunBurst() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [dataSun, setDataSun] = useState({ "id": 'nivo', "children": [] });
-
+  // load the json file to dictionary dont use require
+  
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };
@@ -15,6 +17,9 @@ export default function sunBurst() {
   const tooltip = (node) => {
     // small square with ronded corners and the color of the node
     // with the name of the category and the net quantity
+    const getNcm = (id) => {
+      return ncm[id];
+    }
     return (
       <div
         style={{
@@ -29,9 +34,9 @@ export default function sunBurst() {
           justifyContent: 'center',
         }}
       >
-        <small>{node.id}</small>
+        <small>{getNcm(node.id)}</small>
         <br />
-        <small>{node.value} Kg</small>
+        <small>{formatValue(node.value)} Kg</small>
       </div>
     );
   }
@@ -101,37 +106,33 @@ export default function sunBurst() {
   );
 }
 
-const preprocessData = (data) => {
-  // get the first 1500 rows
-  data = data.slice(0, 1500);
-  // Get the unique data
-  data = getUniqueData(data);
-  // Calculate the total weight
-  let totalWeight = calculateTotalWeight(data);
-  // totalweight by NCM category
-  let totalWeightNcm = {};
+const getTenBiggestCat = (data) => {
+  // group by category
+  let groupedData = {};
   data.forEach((node) => {
-    if (!totalWeightNcm[node.CO_NCM.slice(0, 2)]) {
-      totalWeightNcm[node.CO_NCM.slice(0, 2)] = parseFloat(node.KG_LIQUIDO);
+    if (!groupedData[node.CO_NCM.slice(0, 2)]) {
+      groupedData[node.CO_NCM.slice(0, 2)] = parseFloat(node.KG_LIQUIDO);
     } else {
-      totalWeightNcm[node.CO_NCM.slice(0, 2)] += parseFloat(node.KG_LIQUIDO);
+      groupedData[node.CO_NCM.slice(0, 2)] += parseFloat(node.KG_LIQUIDO);
     }
   });
-  // suppress the category NCM_1 data below 0.1% of the total weight
-  let threshold = 0.001 * totalWeight
-  data = data.filter((node) => totalWeightNcm[node.CO_NCM.slice(0, 2)] >= threshold);
-  // Preprocess the data to create the hierarchy
-  let hierarchyData = getHierarchySunburstN(data);
-  const finalData = hierarchyData
-  return {id: 'nivo', children: finalData};
+  // sort the categories by weight
+  let sortedData = Object.keys(groupedData).sort((a, b) => groupedData[b] - groupedData[a]);
+  // get the 10 biggest category
+  let tenBiggest = sortedData.slice(0, 10);
+  // filter the data to get only the 10 biggest category
+  let filteredData = data.filter((node) => tenBiggest.includes(node.CO_NCM.slice(0, 2)));
+  return filteredData;
 };
 
-const calculateTotalWeight = (data) => {
-  let totalWeight = 0;
-  data.forEach((node) => {
-    totalWeight += node.KG_LIQUIDO;
-  });
-  return totalWeight;
+const preprocessData = (data) => {
+  // Get the 10 biggest category
+  let filteredData = getTenBiggestCat(data);
+  // Get the unique data
+  filteredData = getUniqueData(filteredData);
+  // Preprocess the data to create the hierarchy
+  const hierarchyData = getHierarchySunburstN(filteredData);
+  return {id: 'nivo', children: hierarchyData};
 };
 
 const getUniqueData = (data) => {
@@ -193,3 +194,15 @@ const getHierarchySunburstN = (data) => {
   return dataSunburst;
 };
 
+const formatValue = (number) => {
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+
+  let suffixIndex = 0;
+
+  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
+      number /= 1000;
+      suffixIndex++;
+  }
+
+  return number.toFixed(0) + suffixes[suffixIndex];
+}

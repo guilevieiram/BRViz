@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react'
 import YearSlider from './YearSlider'
 import { ResponsiveSwarmPlot } from '@nivo/swarmplot'
 import "./Styles.css"
+import ncm from '../ncm.json'
 import { getData } from "../api"
+//import transport from '../transport.json'
+
+
 
 export default function Swarm() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -10,15 +14,15 @@ export default function Swarm() {
   const [groups, setGroups] = useState(['10']);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10000);
+  const [categories, Setcategories] = useState([]);
 
   const tooltip = (node) => {
     // small square with ronded corners and the color of the node
     // with the name of the category and the net quantity
-    console.log(node);
     return (
         <div
             style={{
-                background: node.color,
+                background: 'white',
                 color: 'dark',
                 borderRadius: '6px',
                 padding: '0px 5px',
@@ -29,9 +33,9 @@ export default function Swarm() {
                 justifyContent: 'center',
             }}
         >
-            <small>{node.id}</small>
+            <small>{ncm[node.data.CO_NCM_0]}</small>
             <br />
-            <small>{node.data.value} Kg</small>
+            <small>{formatValue(node.data.KG_LIQUIDO)} Kg</small>
         </div>
     );
     }
@@ -43,9 +47,10 @@ export default function Swarm() {
   useEffect(() => {
     getData({
       tableName: 'exports',
-      columns: ['CO_NCM', 'KG_LIQUIDO', 'CO_VIA'],
+      columns: ['CO_NCM_0', 'KG_LIQUIDO', 'CO_VIA'],
       format: "json",
       filterColumn: 'CO_ANO',
+      aggregate: 'KG_LIQUIDO',
       filterValue: selectedYear
     })
       .then((data) => {
@@ -55,6 +60,8 @@ export default function Swarm() {
         setMaxValue(preprocessedData.maxValue);
         setGroups(preprocessedData.groups);
         setDataSwarm(preprocessedData.result);
+        Setcategories([...new Set(preprocessedData.result.map((item) => item.name))]);
+
       })
       .catch((error) => {
         console.error(error);
@@ -67,11 +74,11 @@ export default function Swarm() {
         data={dataSwarm}
         groups={groups}
         identity="id"
-        value="id"
+        value="CO_NCM_0"
         width={800}
         height={500}
         size={{
-            key: 'value',
+            key: 'KG_LIQUIDO',
             values: [
                 minValue,
                 maxValue
@@ -85,8 +92,8 @@ export default function Swarm() {
         gap={4}
         forceStrength={4}
         simulationIterations={100}
-        colors={{ scheme: 'paired' }}
-        colorBy="id"
+        colors={{ scheme: 'category10' }}
+        colorBy="group"
         borderColor={{
             from: 'color',
             modifiers: [
@@ -101,16 +108,10 @@ export default function Swarm() {
             ]
         }}
         margin={{ top: 80, right: 100, bottom: 80, left: 100 }}
+        // grid Y values are the categories
+        // grid X values are the transportation means
         axisTop={null}
-        axisRight={{
-            orient: 'right',
-            tickSize: 10,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: '',
-            legendPosition: 'middle',
-            legendOffset: 76,
-        }}
+        axisRight={null}
         axisBottom={{
             orient: 'bottom',
             tickSize: 10,
@@ -120,15 +121,7 @@ export default function Swarm() {
             legendPosition: 'middle',
             legendOffset: 46,
         }}
-        axisLeft={{
-            orient: 'left',
-            tickSize: 10,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'Category',
-            legendPosition: 'middle',
-            legendOffset: -76
-        }}
+        axisLeft={null}
         tooltip={tooltip}
     />
       </div>
@@ -137,51 +130,54 @@ export default function Swarm() {
   );
 }
 
+const getTenBiggestCat = (data) => {
+  // group by category
+  let groupedData = {};
+  data.forEach((node) => {
+    if (!groupedData[node.CO_NCM_0]) {
+      groupedData[node.CO_NCM_0] = parseFloat(node.KG_LIQUIDO);
+    } else {
+      groupedData[node.CO_NCM_0] += parseFloat(node.KG_LIQUIDO);
+    }
+  });
+  // sort the categories by weight
+  let sortedData = Object.keys(groupedData).sort((a, b) => groupedData[b] - groupedData[a]);
+  // get the 10 biggest category
+  let tenBiggest = sortedData.slice(0, 10);
+  // filter the data to get only the 10 biggest category
+  let filteredData = data.filter((node) => tenBiggest.includes(node.CO_NCM_0));
+  return filteredData;
+};
 
 const preprocessData = (data) => {
-    // Get the unique values of the data
-    let uniqueData = getCategoryData(data);
-    // totalweight
-    let totalWeight = uniqueData.reduce((acc, item) => acc + item.KG_LIQUIDO, 0);
-    // suppress elements with value below 0.1% of the total weight
-    let threshold = 0.001 * totalWeight;
-    uniqueData = uniqueData.filter((item) => item.KG_LIQUIDO >= threshold);
+    // Get the 10 biggest category
+    const filteredData = getTenBiggestCat(data);
     // max and min values
-    const maxValue = Math.max(...uniqueData.map((item) => item.KG_LIQUIDO));
-    const minValue = Math.min(...uniqueData.map((item) => item.KG_LIQUIDO));
-    // list of categories
-    const groups = [...new Set(uniqueData.map((item) => item.CO_VIA))];
+    const maxValue = Math.max(...filteredData.map((item) => item.KG_LIQUIDO));
+    const minValue = Math.min(...filteredData.map((item) => item.KG_LIQUIDO));
     // list of dictionaries with the format {id: "name", value: "value", group: "group", volume: "value"}
-    const result = uniqueData.map((item) => ({
-        id: item.CO_NCM_1,
+    const groups = [...new Set(filteredData.map((item) => item.CO_VIA))];	
+    const result = filteredData.map((item, d) => ({
+        id: d,
         group: item.CO_VIA,
-        value: item.KG_LIQUIDO,
+        ...item,
     }));
     return {result:result, groups:groups, minValue:minValue, maxValue:maxValue};
 };
 
-const getCategoryData = (data) => {
-  const result = {};
+const formatValue = (number) => {
+  if(!number) return "0";
+  console.log(number)
+  number = parseFloat(number);
 
-  // Iterate through the list of dictionaries
-  for (const item of data) {
-    // If the name is not in the result object, add it with the value
-    let key = item.CO_NCM.slice(0, 2);
-    if (!result[key]) {
-      result[key] = [parseFloat(item.KG_LIQUIDO), item.CO_VIA];
-    } else {
-      // If the name is already in the result object, add the value to the existing value
-      result[key][0] += parseFloat(item.KG_LIQUIDO);
-    }
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+
+  let suffixIndex = 0;
+
+  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
+      number /= 1000;
+      suffixIndex++;
   }
 
-  // Convert the result object back to an array of dictionaries
-  const finalResult = Object.keys(result).map((CO_NCM_1) => ({
-        CO_NCM_1,
-        KG_LIQUIDO: result[CO_NCM_1][0],
-        CO_VIA: result[CO_NCM_1][1] 
-    }));
-  return finalResult;
-};
-
-    
+  return number.toFixed(0) + suffixes[suffixIndex];
+}

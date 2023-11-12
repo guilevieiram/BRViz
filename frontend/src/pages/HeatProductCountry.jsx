@@ -12,8 +12,10 @@ export default function hearProductCountry(){
   const logScale = d3.scaleLog()
     .domain([1e4, 1e11]) 
     .range([0, 1]);
+
   const colorScale = d3.scaleSequential(d3.interpolateBlues)
     .domain([0, 1]);
+
   const scale = value => colorScale(logScale(value));
 
   let startedFetching = false;
@@ -120,9 +122,7 @@ export default function hearProductCountry(){
                 legendPosition: 'middle',
                 legendOffset: -72
             }}
-            colors={({value}) => {
-              return scale(value+1)
-            }}
+            colors={({value}) => scale(value+1)}
             emptyColor="#555555"
             legends={[
                 {

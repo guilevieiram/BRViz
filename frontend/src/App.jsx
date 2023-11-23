@@ -77,10 +77,10 @@ const Page = ({openModal, children}) => (
   <div className={`
     min-h-screen min-w-screen 
     flex flex-col items-center justify-start
-    bg-gray-200 dark:bg-gray-200
     text-gray-800 dark:text-gray-800
     overflow-x-none
     overflow-y-none
+    bg-gradient-to-br from-indigo-100 to-blue-200
   `}>
     {
       !openModal ? <></> :
@@ -88,7 +88,8 @@ const Page = ({openModal, children}) => (
         onClick={openModal}
         className={`
           pt-16 py-4 px-24  
-          text-xl bg-indigo-400 rounded-full
+          text-white
+          text-xl bg-indigo-700 rounded-full
           -translate-y-1/2
           hover:scale-[1.02] transition-transform
         `}

@@ -111,10 +111,12 @@ export default function WeightOverTimeByCountry(){
           <ResponsiveGeoMap
             features={worldCountries.features}
             borderWidth={0.5}
+            fillColor="#fff"
+            borderColor="#000"
             enableGraticule={true}
             graticuleLineColor="#666666"
             projectionType="equalEarth"
-            projectionScale={200}
+            projectionScale={180}
             onClick={data => {
               setCountry(countries[data.id])
               setCountryName(countriesNames[data.id])
@@ -132,7 +134,7 @@ export default function WeightOverTimeByCountry(){
               setCountry(null)
               setCountryName(null)
             }}
-            className="bg-indigo-400 py-2 px-6 rounded-lg text-xl my-2"
+            className="bg-indigo-700 text-white py-2 px-6 rounded-lg text-xl"
           >⬅</button>
         </div>
         <div className="h-[400px] w-[1000px] mb-4">

@@ -115,10 +115,10 @@ export default function Swarm() {
             orient: 'bottom',
             tickSize: 10,
             tickPadding: 5,
-            tickRotation: 0,
-            legend: 'Transportation means',
+            tickRotation: -60,
+            legend: '',
             legendPosition: 'middle',
-            legendOffset: 46,
+            legendOffset: 80,
         }}
         axisLeft={null}
         tooltip={tooltip}
@@ -155,8 +155,9 @@ const preprocessData = (data) => {
     const maxValue = Math.max(...filteredData.map((item) => item.KG_LIQUIDO));
     const minValue = Math.min(...filteredData.map((item) => item.KG_LIQUIDO));
     // list of dictionaries with the format {id: "name", value: "value", group: "group", volume: "value"}
-    const groups = [...new Set(filteredData.map((item) => transport[item.CO_VIA]))]
-        .sort();	
+    // const groups = [...new Set(filteredData.map((item) => transport[item.CO_VIA]))]
+    //     .sort();	
+    const groups = Object.values(transport).sort()
     const result = filteredData.map((item, d) => ({
         id: d,
         ...item,

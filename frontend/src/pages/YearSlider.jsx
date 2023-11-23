@@ -3,7 +3,7 @@ const YearSlider = ({ selectedYear, handleYearChange }) => {
         <div style={{ display: 'flex', justifyContent: 'center', height: '200px',}}>
             <div style={{ marginTop: '50px' }}>
                 <input
-                    className="slider"
+                    className="slider p-2 bg-blue-300"
                     type="range" 
                     min="1997"
                     max="2023" // Set the max year as needed

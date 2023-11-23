@@ -19,7 +19,6 @@ export default function ChoroPleth() {
     // small square with ronded corners and the color of the node
     // with the name of the category and the net quantity
     // if node undefined
-    console.log(node);
     if (node.feature.data) {
       const listData = node.feature.data.list;
       const getNcm = (id) => {
@@ -204,7 +203,6 @@ const preprocessData = (data, countries) => {
   // Get the 10 biggest category
   const filteredData = groupByCountry(data, countries);
   // take log of the value
-  console.log(filteredData);
   return filteredData.map(({value, ...rest}) => {
     return {value: Math.log10(value), raw_data: value, ...rest};
   });

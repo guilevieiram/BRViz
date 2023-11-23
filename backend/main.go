@@ -99,9 +99,8 @@ func main(){
 
     countries := readCsv("data/PAIS.csv", "countries", ';')
     exports := readCsv("data/EXP_COMPLETE_01_NCM.csv", "exports", ';')
-    ncm := readCsv("data/NCM.csv", "ncm", ';')
 
-    initializeEndpoints([]DataFrame{countries, exports, ncm})
+    initializeEndpoints([]DataFrame{countries, exports})
 
     fmt.Println("Listening on port ", port)
 

@@ -41,7 +41,7 @@ export default function Modal ({isOpen, onClose, routes}) {
       <div 
         ref={innerDivRef}
         className={`
-          h-full w-full max-w-screen-lg bg-indigo-950 text-white 
+          h-full w-full max-w-screen-lg bg-blue-900 text-white 
           flex flex-col align-center
           p-12
         `}

@@ -23,6 +23,7 @@ const fetchData = ({
     filterColumn: level > 0 ? `CO_NCM_${level-1}` : "",
     filterValue: level > 0 ? filterNCM : ""
   }).then(data => {
+
     const byKey = data
       .reduce(
         (acc, cur) => ({...acc, [cur[column]]: []}), 
@@ -93,7 +94,7 @@ export default function CategoryOverTime(){
               fetchData(lastSearch.slice(-2)[0])
               setLastSearch(lastSearch.slice(0, -1))
             }}
-            className="bg-indigo-400 py-2 px-6 rounded-lg text-xl"
+            className="bg-indigo-700 text-white py-2 px-6 rounded-lg text-xl"
           >⬅</button>
         }
       </div>

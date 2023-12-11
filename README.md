@@ -8,6 +8,8 @@ The authors of this project are and *Abdoul Rahim* and *Guilherme Vieira* (me).
 
 The data used can be found at kaggle.com/datasets/yousefmoterassed/brazil-importexport-data-from-1996-to-2023
 
+You can visit a live demo for the project at http://18.170.60.53 . Please note that it is still unstable and at an http link.
+
 
 ## Running
 The first step in starting the project is to download the data from the Kaggle link above and save it into `backend/data/`.

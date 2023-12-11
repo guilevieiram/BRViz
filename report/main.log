@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.12.2)  3 DEC 2023 12:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.12.2)  11 DEC 2023 12:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -516,84 +516,86 @@ Package hyperref Info: Link coloring OFF on input line 23.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
-<bump.png, id=83, 1907.125pt x 975.645pt>
-File: bump.png Graphic file (type png)
-<use bump.png>
-Package pdftex.def Info: bump.png  used on input line 106.
-(pdftex.def)             Requested size: 364.19667pt x 186.31236pt.
+<assets/bump1.png, id=84, 1119.18124pt x 645.41125pt>
+File: assets/bump1.png Graphic file (type png)
+<use assets/bump1.png>
+Package pdftex.def Info: assets/bump1.png  used on input line 108.
+(pdftex.def)             Requested size: 409.71692pt x 236.2773pt.
  [4]
-<bump2.png, id=88, 1905.1175pt x 975.645pt>
-File: bump2.png Graphic file (type png)
-<use bump2.png>
-Package pdftex.def Info: bump2.png  used on input line 112.
-(pdftex.def)             Requested size: 364.19667pt x 186.50589pt.
-<bump3.png, id=89, 1904.11375pt x 971.63pt>
-File: bump3.png Graphic file (type png)
-<use bump3.png>
-Package pdftex.def Info: bump3.png  used on input line 118.
-(pdftex.def)             Requested size: 364.19667pt x 185.84216pt.
- [5 <./bump.png> <./bump2.png> <./bump3.png>]
-<stream1.png, id=97, 1902.10625pt x 971.63pt>
-File: stream1.png Graphic file (type png)
-<use stream1.png>
-Package pdftex.def Info: stream1.png  used on input line 129.
-(pdftex.def)             Requested size: 364.19667pt x 186.0349pt.
-<stream2.png, id=98, 1903.11pt x 966.61125pt>
-File: stream2.png Graphic file (type png)
-<use stream2.png>
-Package pdftex.def Info: stream2.png  used on input line 135.
-(pdftex.def)             Requested size: 364.19667pt x 184.97073pt.
- [6 <./stream1.png> <./stream2.png>]
-<heatmap1.png, id=105, 1903.11pt x 971.63pt>
-File: heatmap1.png Graphic file (type png)
-<use heatmap1.png>
-Package pdftex.def Info: heatmap1.png  used on input line 150.
-(pdftex.def)             Requested size: 364.19667pt x 185.93112pt.
-<heatmap2.png, id=106, 1902.10625pt x 970.62625pt>
-File: heatmap2.png Graphic file (type png)
-<use heatmap2.png>
-Package pdftex.def Info: heatmap2.png  used on input line 156.
-(pdftex.def)             Requested size: 364.19667pt x 185.84271pt.
- [7 <./heatmap1.png> <./heatmap2.png>]
-<barplot.png, id=114, 1903.11pt x 971.63pt>
-File: barplot.png Graphic file (type png)
-<use barplot.png>
-Package pdftex.def Info: barplot.png  used on input line 168.
-(pdftex.def)             Requested size: 364.19667pt x 185.93112pt.
-<sunburst.png, id=115, 1904.11375pt x 968.61874pt>
-File: sunburst.png Graphic file (type png)
-<use sunburst.png>
-Package pdftex.def Info: sunburst.png  used on input line 180.
-(pdftex.def)             Requested size: 364.19667pt x 185.2662pt.
- [8 <./barplot.png>]
-<swarm.png, id=121, 1902.10625pt x 971.63pt>
-File: swarm.png Graphic file (type png)
-<use swarm.png>
-Package pdftex.def Info: swarm.png  used on input line 193.
-(pdftex.def)             Requested size: 364.19667pt x 186.0349pt.
- [9 <./sunburst.png> <./swarm.png>]
-<choro.png, id=128, 1902.10625pt x 969.6225pt>
-File: choro.png Graphic file (type png)
-<use choro.png>
-Package pdftex.def Info: choro.png  used on input line 203.
-(pdftex.def)             Requested size: 364.19667pt x 185.65053pt.
- [10 <./choro.png>] (./main.aux)
+<assets/bump2.png, id=90, 1050.92625pt x 632.3625pt>
+File: assets/bump2.png Graphic file (type png)
+<use assets/bump2.png>
+Package pdftex.def Info: assets/bump2.png  used on input line 114.
+(pdftex.def)             Requested size: 409.71692pt x 246.53354pt.
+<assets/countries1.png, id=91, 1019.81pt x 605.26125pt>
+File: assets/countries1.png Graphic file (type png)
+<use assets/countries1.png>
+Package pdftex.def Info: assets/countries1.png  used on input line 120.
+(pdftex.def)             Requested size: 409.71692pt x 243.17152pt.
+ [5 <./assets/bump1.png> <./assets/bump2.png>]
+<assets/stream1.png, id=100, 1031.855pt x 619.31375pt>
+File: assets/stream1.png Graphic file (type png)
+<use assets/stream1.png>
+Package pdftex.def Info: assets/stream1.png  used on input line 131.
+(pdftex.def)             Requested size: 409.71692pt x 245.90672pt.
+ [6 <./assets/countries1.png>]
+<assets/stream2.png, id=107, 1055.945pt x 580.1675pt>
+File: assets/stream2.png Graphic file (type png)
+<use assets/stream2.png>
+Package pdftex.def Info: assets/stream2.png  used on input line 137.
+(pdftex.def)             Requested size: 409.71692pt x 225.1047pt.
+ [7 <./assets/stream1.png> <./assets/stream2.png>]
+<assets/heat1.png, id=117, 1193.45876pt x 646.415pt>
+File: assets/heat1.png Graphic file (type png)
+<use assets/heat1.png>
+Package pdftex.def Info: assets/heat1.png  used on input line 152.
+(pdftex.def)             Requested size: 409.71692pt x 221.91856pt.
+<assets/heat2.png, id=118, 1190.4475pt x 644.4075pt>
+File: assets/heat2.png Graphic file (type png)
+<use assets/heat2.png>
+Package pdftex.def Info: assets/heat2.png  used on input line 158.
+(pdftex.def)             Requested size: 409.71692pt x 221.78001pt.
+ [8 <./assets/heat1.png>]
+<assets/bar2.png, id=125, 1114.1625pt x 632.3625pt>
+File: assets/bar2.png Graphic file (type png)
+<use assets/bar2.png>
+Package pdftex.def Info: assets/bar2.png  used on input line 170.
+(pdftex.def)             Requested size: 409.71692pt x 232.5424pt.
+ [9 <./assets/heat2.png>]
+<assets/sun1.png, id=132, 647.41875pt x 637.38126pt>
+File: assets/sun1.png Graphic file (type png)
+<use assets/sun1.png>
+Package pdftex.def Info: assets/sun1.png  used on input line 182.
+(pdftex.def)             Requested size: 409.71692pt x 403.37102pt.
+ [10 <./assets/bar2.png>]
+<assets/swarm1.png, id=139, 935.495pt x 651.43375pt>
+File: assets/swarm1.png Graphic file (type png)
+<use assets/swarm1.png>
+Package pdftex.def Info: assets/swarm1.png  used on input line 195.
+(pdftex.def)             Requested size: 409.71692pt x 285.3097pt.
+ [11 <./assets/sun1.png>]
+<assets/choro1.png, id=146, 891.33pt x 653.44125pt>
+File: assets/choro1.png Graphic file (type png)
+<use assets/choro1.png>
+Package pdftex.def Info: assets/choro1.png  used on input line 205.
+(pdftex.def)             Requested size: 409.71692pt x 300.36726pt.
+ [12 <./assets/swarm1.png>] [13 <./assets/choro1.png>] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 55B5EB16F1E561198EEDAFD0D24C46CD;1630.
  ) 
 Here is how much of TeX's memory you used:
- 12667 strings out of 478051
- 202067 string characters out of 5840943
- 1858330 words of memory out of 5000000
+ 12671 strings out of 478051
+ 202522 string characters out of 5840943
+ 1859330 words of memory out of 5000000
  32599 multiletter control sequences out of 15000+600000
  515046 words of font info for 41 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,6n,76p,839b,437s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/guile/.texlive2022/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on main.pdf (10 pages, 1951882 bytes).
+Output written on main.pdf (13 pages, 1479590 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
- 132 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
+ 188 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
  176 words of extra memory for PDF output out of 10000 (max. 10000000)
 
